@@ -1,10 +1,10 @@
 test:
   image: python:2.7
   script:
-    - echo "Test"
+    - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report
 
 test:
   image: python:3.5
   script:
-    - echo "Test"
+    - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report
   allow_failure: true
