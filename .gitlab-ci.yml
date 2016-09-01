@@ -4,7 +4,7 @@ test:
     - pip install -r requirements.txt
     - pip install -r requirements-dev.txt
   script:
-    - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report
+    - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report -m
 
 test_py3:
   image: python:3.5
@@ -12,5 +12,5 @@ test_py3:
     - pip install -r requirements.txt
     - pip install -r requirements-dev.txt
   script:
-    - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report
+    - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report -m
   allow_failure: true
