@@ -132,7 +132,7 @@ class ModelBunch(BaseResource):
         if args.filter:
             try:
                 search_params = literal_eval(args.filter)
-            except (ValueError, SyntaxError), e:
+            except (ValueError, SyntaxError) as e:
                 response = jsonify({
                     'status': 'ERROR',
                     'errors': {'filter': e.message}
