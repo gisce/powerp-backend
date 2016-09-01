@@ -2,7 +2,7 @@ from __future__ import absolute_import
 import logging
 
 from flask import Flask
-from backend import Backend
+from __init__ import Backend
 from osconf import config_from_environment
 from raven.contrib.flask import Sentry
 

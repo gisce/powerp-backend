@@ -8,10 +8,10 @@ from flask.ext import login
 from flask.ext import cors
 from itsdangerous import JSONWebSignatureSerializer
 
-from backend.utils import (
+from utils import (
     recursive_crud, flatdot, unflatdot, normalize, make_schema
 )
-from backend.validators import OpenERPValidator
+from validators import OpenERPValidator
 
 
 def get_model(model):

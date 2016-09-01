@@ -1,8 +1,8 @@
 from __future__ import absolute_import
 from flask import Flask
 from flask_testing import TestCase
-from .__init__ import Backend
-from .backend_blueprint import backend
+from __init__ import Backend
+from backend_blueprint import backend
 import unittest
 
 
