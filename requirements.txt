@@ -7,3 +7,4 @@ flask-cors
 raven<5.0
 blinker
 cerberus
+xmlrpclib
