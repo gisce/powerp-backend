@@ -1,5 +1,5 @@
 from ast import literal_eval
-from six import xmlrpc_client
+from six.moves.xmlrpc_client import Fault
 from flask import jsonify, current_app, g, request
 from flask.ext import restful
 from flask.ext.restful import reqparse
@@ -143,7 +143,7 @@ class ModelBunch(BaseResource):
         try:
             count = model.search_count(search_params)
             res_ids = model.search(search_params, limit=limit, offset=offset)
-        except xmlrpc_client.Fault:
+        except Fault:
             response = jsonify({'status': 'ERROR'})
             response.status_code = 422
             return response
