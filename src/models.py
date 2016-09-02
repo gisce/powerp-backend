@@ -1,6 +1,5 @@
 from ast import literal_eval
-from xmlrpclib import Fault
-
+from six.moves.xmlrpc_client import Fault
 from flask import jsonify, current_app, g, request
 from flask.ext import restful
 from flask.ext.restful import reqparse
