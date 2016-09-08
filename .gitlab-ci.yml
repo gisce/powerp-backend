@@ -16,3 +16,14 @@ test_py3:
   script:
     - PYTHONPATH="${PYTHONPATH}:./src/" python src/test.py && PYTHONPATH="${PYTHONPATH}:./src/" coverage run --source=./src/ src/test.py && coverage report -m
   allow_failure: true
+
+test_package_py2:
+  image: python:2.7
+  script:
+    - pip install --upgrade .
+
+test_package_py3:
+  image: python:3.5
+  script:
+    - pip install --upgrade .
+  allow_failure: true
