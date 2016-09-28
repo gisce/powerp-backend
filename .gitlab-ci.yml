@@ -15,7 +15,6 @@ test_py3:
     - pip install -r requirements-dev.txt
   script:
     - PYTHONPATH="${PYTHONPATH}:./backend/" python backend/test.py && PYTHONPATH="${PYTHONPATH}:./backend/" coverage run --source=./backend/ backend/test.py && coverage report -m
-  allow_failure: true
 
 test_package_py2:
   image: python:2.7
@@ -26,4 +25,3 @@ test_package_py3:
   image: python:3.5
   script:
     - pip install --upgrade .
-  allow_failure: true
