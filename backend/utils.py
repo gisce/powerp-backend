@@ -129,12 +129,14 @@ def flatdot(schema):
 def make_schema(model, fields):
     fields = unflatdot(fields)
     fields_def = model.fields_get()
+    defaults_fields = model.default_get(fields_def.keys())
     schema = {}
     if 'id' not in fields_def:
         fields_def['id'] = {'type': 'integer'}
     for field, attrs in fields_def.items():
+        required = attrs.get('required', False) and field not in defaults_fields
         schema[field] = {
-            'required': attrs.get('required', False),
+            'required': required,
             'readonly': attrs.get('readonly', False)
         }
         type_ = attrs['type']
