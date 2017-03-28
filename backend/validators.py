@@ -18,10 +18,10 @@ class OpenERPValidator(Validator):
         try:
             datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
         except ValueError:
-            self._error(field, errors.ERROR_BAD_TYPE % 'datetime_str')
+            self._error(field, errors.ERROR_BAD_TYPE.format('datetime_str'))
 
     def _validate_type_date_str(self, field, value):
         try:
             datetime.strptime(value, '%Y-%m-%d')
         except ValueError:
-            self._error(field, errors.ERROR_BAD_TYPE % 'date_str')
+            self._error(field, errors.ERROR_BAD_TYPE.format("date_str"))
