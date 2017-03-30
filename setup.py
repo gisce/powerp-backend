@@ -11,7 +11,7 @@ setup(
     license='MIT',
     author='GISCE-TI, S.L.',
     author_email='devel@gisce.net',
-    description='Bakcend service to connect to OpeERP',
+    description='Backend service to connect to OpeERP',
     entry_points='''
         [console_scripts]
         backend=backend.app
