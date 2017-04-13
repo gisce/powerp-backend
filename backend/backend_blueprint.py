@@ -1,8 +1,8 @@
 import base64
 
 from flask import Blueprint, session, g, current_app
-from flask.ext import restful
-from flask.ext import login
+import flask_restful as restful
+import flask_login as login
 from itsdangerous import JSONWebSignatureSerializer, BadSignature
 from pool import Pool
 from models import Model, ModelBunch, ModelMethod, Token

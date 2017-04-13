@@ -1,10 +1,10 @@
 from ast import literal_eval
 from six.moves.xmlrpc_client import Fault
 from flask import jsonify, current_app, g, request
-from flask.ext import restful
-from flask.ext.restful import reqparse
-from flask.ext import login
-from flask.ext import cors
+import flask_restful as restful
+from flask_restful import reqparse
+import flask_login as login
+import flask_cors as cors
 from itsdangerous import JSONWebSignatureSerializer
 
 from utils import (
