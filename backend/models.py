@@ -25,6 +25,9 @@ def get_model(model):
 class BaseResource(restful.Resource):
     method_decorators = [login.login_required, cors.cross_origin()]
 
+    def options(self):
+        return jsonify({})
+
 
 class Token(BaseResource):
     def get(self):
@@ -88,6 +91,7 @@ class Model(BaseResource):
 
 
 class ModelBunch(BaseResource):
+
     def post(self, model):
         model = get_model(model)
         data = request.json
