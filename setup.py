@@ -5,7 +5,7 @@ reqs = data.split()
 
 setup(
     name='backend',
-    version='0.1.2',
+    version='0.2.0',
     packages=find_packages(),
     url='http://git.gisce.net/gis/backend',
     license='MIT',
