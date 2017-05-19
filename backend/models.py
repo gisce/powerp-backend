@@ -154,11 +154,11 @@ class ModelBunch(BaseResource):
         if args.schema:
             schema = [x.strip() for x in args.schema.split(',')]
         else:
-            schema = model.fields_get().keys()
+            schema = list(model.fields_get().keys())
         schema = unflatdot(schema)
         items = []
         for item_id in res_ids:
-            values = model.read(item_id, schema.keys())
+            values = model.read(item_id, list(schema.keys()))
             items.append(normalize(model, values, schema))
         return jsonify({
             'items': items, 'n_items': count, 'limit': limit, 'offset': offset
