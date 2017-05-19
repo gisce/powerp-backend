@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-from backend_blueprint import backend
+from backend.backend_blueprint import backend
 
 
 class Backend(object):

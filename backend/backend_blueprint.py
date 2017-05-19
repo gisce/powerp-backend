@@ -4,8 +4,8 @@ from flask import Blueprint, session, g, current_app
 import flask_restful as restful
 import flask_login as login
 from itsdangerous import JSONWebSignatureSerializer, BadSignature
-from pool import Pool
-from models import Model, ModelBunch, ModelMethod, Token
+from backend.pool import Pool
+from backend.models import Model, ModelBunch, ModelMethod, Token
 import erppeek
 
 
