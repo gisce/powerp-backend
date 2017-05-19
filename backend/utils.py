@@ -1,4 +1,41 @@
 import collections
+from hashlib import sha1
+
+from werkzeug.contrib.cache import SimpleCache
+
+
+class DataCache(SimpleCache):
+
+    TIMEOUT = 10
+
+    @staticmethod
+    def calculate_key(model, ids, fields):
+        if not isinstance(ids, (list, tuple)):
+            ids = [ids]
+        ids = sorted(ids)
+        fields = sorted(fields)
+        key_args = '{}-{}-{}'.format(model, ids, fields).encode('utf-8')
+        key = sha1(key_args).hexdigest()
+        return key
+
+    def get_data(self, model, ids, fields):
+        key = self.calculate_key(model, ids, fields)
+        return self.get(key)
+
+    def set_data(self, model, ids, fields, values):
+        key = self.calculate_key(model, ids, fields)
+        self.set(key, values, self.TIMEOUT)
+
+    def get_fields(self, model):
+        key = '{}_fields'.format(model)
+        return self.get(key)
+
+    def set_fields(self, model, fields):
+        key = '{}_fields'.format(model)
+        self.set(key, fields)
+
+
+cache = DataCache()
 
 
 def recursive_crud(model, values):
@@ -47,7 +84,10 @@ def recursive_crud(model, values):
 def normalize(model, values, dump_schema=None):
     if dump_schema is None:
         dump_schema = {}
-    schema = model.fields_get()
+    schema = cache.get_fields(model._name)
+    if schema is None:
+        schema = model.fields_get()
+        cache.set_fields(model._name, schema)
     _values = values.copy()
     for k, v in _values.items():
         field_type = schema.get(k, {}).get('type')
@@ -64,7 +104,19 @@ def normalize(model, values, dump_schema=None):
                 fields_to_read = dump_schema[k]
             if field_type == 'many2one':
                     if fields_to_read:
-                        data = relation.read(_values[k][0], fields_to_read)
+                        data = cache.get_data(
+                            relation._name,
+                            _values[k][0],
+                            fields_to_read
+                        )
+                        if data is None:
+                            data = relation.read(_values[k][0], fields_to_read)
+                            cache.set_data(
+                                relation._name,
+                                _values[k][0],
+                                fields_to_read,
+                                data
+                            )
                         _values[k] = normalize(
                             relation, data, dump_schema.get(k)
                         )
