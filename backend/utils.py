@@ -77,7 +77,13 @@ def recursive_crud(model, values):
         item_id = model.create(vals).id
     else:
         item_id = vals.pop('id', None)
-        model.write([item_id], vals)
+        if vals:
+            stored = model.read([item_id], list(vals.keys()))[0]
+            for key, stored_value in stored.items():
+                if vals[key] == stored_value:
+                    vals.pop(key)
+        if vals:
+            model.write([item_id], vals)
     return item_id
 
 
