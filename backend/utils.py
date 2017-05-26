@@ -41,7 +41,7 @@ cache = DataCache()
 def recursive_crud(model, values):
     schema = model.fields_get()
     vals = {}
-    for k, v in values.iteritems():
+    for k, v in values.items():
         if k == 'id':
             vals[k] = v
             continue
@@ -162,7 +162,7 @@ def unflatdot(fields):
 
 def flatdot(schema):
     fields = []
-    for k, v in schema.iteritems():
+    for k, v in schema.items():
         if isinstance(v, dict):
             for f in flatdot(schema[k]):
                 f = '%s.%s' % (k, f)
@@ -181,7 +181,7 @@ def flatdot(schema):
 def make_schema(model, fields):
     fields = unflatdot(fields)
     fields_def = model.fields_get()
-    defaults_fields = model.default_get(fields_def.keys())
+    defaults_fields = model.default_get(list(fields_def.keys()))
     schema = {}
     if 'id' not in fields_def:
         fields_def['id'] = {'type': 'integer'}
