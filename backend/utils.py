@@ -222,5 +222,12 @@ def make_schema(model, fields):
                 }
         if attrs['type'] in ('date', 'datetime'):
             type_ = '%s_str' % attrs['type']
+        if attrs['type'] == 'reference':
+            type_ = 'string'
+            schema[field]['regex'] = '^({}),\d'.format('|'.join(
+                    x[0].replace('.', '\.') for x in attrs['selection']
+                )
+            )
+            schema[field].pop('allowd', None)
         schema[field]['type'] = type_
     return schema
