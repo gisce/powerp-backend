@@ -5,9 +5,9 @@ reqs = data.split()
 
 setup(
     name='backend',
-    version='0.2.0',
+    version='0.3.0',
     packages=find_packages(),
-    url='http://git.gisce.net/gis/backend',
+    url='https://github.com/gisce/powerp-backend',
     license='MIT',
     author='GISCE-TI, S.L.',
     author_email='devel@gisce.net',
