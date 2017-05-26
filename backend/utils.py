@@ -32,7 +32,7 @@ class DataCache(SimpleCache):
 
     def set_fields(self, model, fields):
         key = '{}_fields'.format(model)
-        self.set(key, fields)
+        self.set(key, fields, self.TIMEOUT)
 
 
 cache = DataCache()
