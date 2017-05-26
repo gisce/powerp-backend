@@ -192,10 +192,15 @@ def make_schema(model, fields):
     if 'id' not in fields_def:
         fields_def['id'] = {'type': 'integer'}
     for field, attrs in fields_def.items():
-        required = attrs.get('required', False) and field not in defaults_fields
+        if 'id' not in fields:
+            required = (
+                attrs.get('required', False) and field not in defaults_fields
+            )
+        else:
+            required = False
         schema[field] = {
             'required': required,
-            'readonly': attrs.get('readonly', False)
+            'readonly': bool(attrs.get('readonly', False))
         }
         type_ = attrs['type']
         if type_ in ('text', 'char', 'selection'):
