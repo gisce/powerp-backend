@@ -111,7 +111,7 @@ The result is a JSON document as the following:
 .. code:: json
 
   {
-    "res": <method_result>
+    "res": "<method_result>"
   }
 
 `GET /api/<model>/<id>`
