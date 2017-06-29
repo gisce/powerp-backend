@@ -5,7 +5,7 @@ import flask_restful as restful
 import flask_login as login
 from itsdangerous import JSONWebSignatureSerializer, BadSignature
 from backend.pool import Pool
-from backend.models import Model, ModelBunch, ModelMethod, Token
+from backend.models import Model, ModelBunch, ModelMethod, ModelIdMethod, Token
 import erppeek
 
 
@@ -16,7 +16,8 @@ api.init_app(backend)
 api.add_resource(Token, 'token')
 api.add_resource(ModelBunch, '<string:model>')
 api.add_resource(Model, '<string:model>/<int:id>')
-api.add_resource(ModelMethod, '<string:model>/<int:id>/<string:method>')
+api.add_resource(ModelIdMethod, '<string:model>/<int:id>/<string:method>')
+api.add_resource(ModelMethod, '<string:model>/<string:method>')
 
 login_manager = login.LoginManager()
 
