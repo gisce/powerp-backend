@@ -166,6 +166,17 @@ class ModelBunch(BaseResource):
 
 
 class ModelMethod(BaseResource):
+    def post(self, model, method):
+        method = getattr(get_model(model), method)
+        data = request.json
+        if data and 'args' in data:
+            res = method(*data['args'])
+        else:
+            res = method()
+        return jsonify({'res': res})
+
+
+class ModelIdMethod(BaseResource):
     def post(self, model, id, method):
         model = get_model(model).browse(id)
         method = getattr(model, method)
@@ -175,3 +186,4 @@ class ModelMethod(BaseResource):
         else:
             res = method()
         return jsonify({'res': res})
+
