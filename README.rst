@@ -133,3 +133,22 @@ Updates a record.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Removes a record.
+
+--------------
+Authentication
+--------------
+
+`GET /api/token`
+~~~~~~~~~~~~~~~~
+
+You must authenticate using Basic Auth a token will be returned as the following:
+
+.. code:: json
+
+  {
+    "token": "fkaldsjfñlkajsflñksajdfñlkjsadñlfja9074375984352.09aufoiajsdf"
+  }
+
+Then you should use this token for the future requests with the 'Auth header' as:
+
+``"Authoritzation: token fkaldsjfñlkajsflñksajdfñlkjsadñlfja9074375984352.09aufoiajsdf"``
