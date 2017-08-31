@@ -111,12 +111,22 @@ class ModelBunch(BaseResource):
         return resp
 
     def get(self, model):
+        """
+        Handles the GET requests to search on the model
+
+        :param model: Model to search
+        :type model: str
+        :return: json response
+        """
+
         model = get_model(model)
         parser = reqparse.RequestParser()
         parser.add_argument(
             'filter', dest='filter',
             type=str, help='Filter for searching items'
         )
+
+        # Fields to read , coma separated str
         parser.add_argument(
             'schema', dest='schema',
             type=str, help='Schema for dumping the JSON'
