@@ -42,7 +42,17 @@ class Token(BaseResource):
 
 class Model(BaseResource):
 
-    def get(self, model, id):
+    def get(self, model, obj_id):
+        """
+            Retrieve data from the element with id = obj_id
+
+            :param model: Model name
+            :type type: str
+            :param obj_id: Element Id
+            :type type: str
+            :return: Response with the data of the asked fields
+            :rtype: Response
+        """
         model = get_model(model)
         parser = reqparse.RequestParser()
         parser.add_argument(
@@ -56,13 +66,23 @@ class Model(BaseResource):
         else:
             schema = model.fields_get().keys()
         schema = unflatdot(schema)
-        result = normalize(model, model.read(id, schema.keys()), schema)
+        result = normalize(model, model.read(obj_id, schema.keys()), schema)
         return jsonify(result)
 
-    def patch(self, model, id):
+    def patch(self, model, obj_id):
+        """
+            Updates a record with id = obj_id
+
+            :param model: Model name
+            :type type: str
+            :param obj_id: Element Id
+            :type type: str
+            :return: Response with the result of the action
+            :rtype: Response
+        """
         model = get_model(model)
         data = request.json
-        data['id'] = id
+        data['id'] = obj_id
         fields = flatdot(data)
         schema = make_schema(model, fields)
         validator = OpenERPValidator(schema)
@@ -78,9 +98,19 @@ class Model(BaseResource):
             resp = jsonify({'status': 'OK'})
         return resp
 
-    def delete(self, model, id):
+    def delete(self, model, obj_id):
+        """
+            Delete a record with id = obj_id
+
+            :param model: Model name
+            :type type: str
+            :param obj_id: Element Id
+            :type type: str
+            :return: Response with the result of the action
+            :rtype: Response
+        """
         model = get_model(model)
-        found = model.search([('id', '=', id)], context={'active_test': False})
+        found = model.search([('id', '=', obj_id)], context={'active_test': False})
         if not found:
             response = jsonify({'status': 'ERROR'})
             response.status_code = 404
@@ -93,6 +123,14 @@ class Model(BaseResource):
 class ModelBunch(BaseResource):
 
     def post(self, model):
+        """
+            Create a new record in the model
+
+            :param model: Model name
+            :type type: str
+            :return: Response with the result of the action
+            :rtype: Response
+        """
         model = get_model(model)
         data = request.json
         fields = flatdot(data)
@@ -112,21 +150,19 @@ class ModelBunch(BaseResource):
 
     def get(self, model):
         """
-        Handles the GET requests to search on the model
+            Get a collection of record of the model
 
-        :param model: Model to search
-        :type model: str
-        :return: json response
+            :param model: Model name
+            :type type: str
+            :return: Response with the result of the action
+            :rtype: Response
         """
-
         model = get_model(model)
         parser = reqparse.RequestParser()
         parser.add_argument(
             'filter', dest='filter',
             type=str, help='Filter for searching items'
         )
-
-        # Fields to read , coma separated str
         parser.add_argument(
             'schema', dest='schema',
             type=str, help='Schema for dumping the JSON'
@@ -177,6 +213,16 @@ class ModelBunch(BaseResource):
 
 class ModelMethod(BaseResource):
     def post(self, model, method):
+        """
+            Call a method of the model
+
+            :param model: Model name
+            :type type: str
+            :param method: Method name
+            :type type: str
+            :return: Response with the result of the method execution
+            :rtype: Response
+        """
         method = getattr(get_model(model), method)
         data = request.json
         if data and 'args' in data:
@@ -187,8 +233,20 @@ class ModelMethod(BaseResource):
 
 
 class ModelIdMethod(BaseResource):
-    def post(self, model, id, method):
-        model = get_model(model).browse(id)
+    def post(self, model, obj_id, method):
+        """
+            Call a method of a model and concrete element with id = obj_id
+
+            :param model: Model name
+            :type type: str
+            :param obj_id: Element Id
+            :type type: str
+            :param method: Method name
+            :type type: str
+            :return: Response with the result of the method execution
+            :rtype: Response
+        """
+        model = get_model(model).browse(obj_id)
         method = getattr(model, method)
         data = request.json
         if data and 'args' in data:

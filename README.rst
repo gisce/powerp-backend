@@ -30,7 +30,7 @@ The result is a json with the following keys:
 
 Request e.g.::
 
-  GET /api/account.invoice?schema=['number','partner_id.name','partner_id.vat','total_amount']&filter=[('state','=','open'),('type','in',('out_invoice','out_refund'))]
+  GET /api/account.invoice?schema=number,partner_id.name,partner_id.vat,total_amount&filter=[('state','=','open'),('type','in',('out_invoice','out_refund'))]
   
 Response e.g.:
 
@@ -127,7 +127,26 @@ The response is only the JSON of the resource.
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Updates a record.
+The fields to be updated must be put inside the data attribute of the AJAX request and specify that the dataType is JSON.
+The format of this fields must be a stringifyed map with the format {"atrName":"atrValue",...}.
+The response is a JSON object that changes depending on whether the answer is OK or there's an error with a field.
 
+If the answer is OK the response looks like:
+.. code:: json
+
+  {
+    "status":"OK"
+  }
+
+If the answer is ERROR the response looks like:
+.. code:: json
+
+  {
+    "errors":{
+    "nameOfFieldWithError":["Error explanation"]
+    },
+    "status":"ERROR"
+  }
 
 `DELETE /api/<model>/<id>`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
