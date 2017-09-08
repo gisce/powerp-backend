@@ -30,7 +30,7 @@ The result is a json with the following keys:
 
 Request e.g.::
 
-  GET /api/account.invoice?schema=number,partner_id.name,partner_id.vat,total_amount&filter=[('state','=',['open']),('type','in',['out_invoice','out_refund'])]
+  GET /api/account.invoice?schema=number,partner_id.name,partner_id.vat,total_amount&filter=[('state','=','open'),('type','in',['out_invoice','out_refund'])]
   
 Response e.g.:
 
