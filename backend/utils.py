@@ -204,7 +204,7 @@ def make_schema(model, fields):
             'readonly': bool(attrs.get('readonly', False))
         }
         type_ = attrs['type']
-        if type_ in ('text', 'char', 'selection'):
+        if type_ in ('text', 'char', 'selection', 'binary'):
             type_ = 'string'
         if attrs['type'] == 'char' and attrs.get('size'):
             schema[field]['maxlength'] = attrs['size']
