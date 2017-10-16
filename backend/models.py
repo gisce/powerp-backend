@@ -47,9 +47,9 @@ class Model(BaseResource):
             Retrieve data from the element with id = obj_id
 
             :param model: Model name
-            :type type: str
+            :type model: str
             :param obj_id: Element Id
-            :type type: str
+            :type obj_id: str
             :return: Response with the data of the asked fields
             :rtype: Response
         """
@@ -238,11 +238,11 @@ class ModelIdMethod(BaseResource):
             Call a method of a model and concrete element with id = obj_id
 
             :param model: Model name
-            :type type: str
+            :type model: str
             :param obj_id: Element Id
-            :type type: str
+            :type obj_id: str
             :param method: Method name
-            :type type: str
+            :type method: str
             :return: Response with the result of the method execution
             :rtype: Response
         """
