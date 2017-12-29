@@ -8,8 +8,11 @@ from raven.contrib.flask import Sentry
 
 
 application = Flask(__name__)
-sentry = Sentry(application)
-sentry.captureMessage("Modul backend inicat", level=logging.INFO)
+try:
+    sentry = Sentry(application)
+    sentry.captureMessage("Modul backend inicat", level=logging.INFO)
+except Exception:
+    pass
 Backend(application, url_prefix='/')
 
 required = [
