@@ -46,7 +46,7 @@ def load_user_from_header(header_val):
             header_val = base64.b64decode(header_val)
             user, password = header_val.split(':')
             print("user:{}".format(user))
-            print("password:{}".format(user))
+            print("password:{}".format(password))
         else:
             user, password = header_val.split()
         if user == "token":
