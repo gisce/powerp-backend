@@ -34,7 +34,7 @@ class Pool(object):
         for element in key_args:
             if isinstance(element, text_type):
                 u_key_args.append(key_args.encode('utf-8'))
-        key = sha1('-'.join(key_args).encode('utf-8')).hexdigest()
+        key = sha1('-'.join(key_args)).hexdigest()
         if key in self._clients:
             client, _ = self._clients[key]
         else:
