@@ -38,7 +38,7 @@ class Pool(object):
             print("c4:{}".format(self._clients[key]))
         else:
             print("c5")
-            client = Client(server, db=db, user=user, password=password)
+            client = Client(server, db=db, user=user.encode("utf-8"), password=password.encode("utf-8"))
         print("c6")
         self._clients[key] = client, time() + self._timeout
         print("c7")

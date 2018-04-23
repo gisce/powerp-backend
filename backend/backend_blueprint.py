@@ -63,8 +63,8 @@ def load_user_from_header(header_val):
         server = current_app.config['OPENERP_SERVER']
         try:
             print("p1")
-            client = pool.connect(server=server, db=database, user=user.encode("utf-8"),
-                                  password=password.encode("utf-8"))
+            client = pool.connect(server=server, db=database, user=user,
+                                  password=password)
             print("p2")
             g.backend_cnx = client
             print("p3")
