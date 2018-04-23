@@ -62,13 +62,19 @@ def load_user_from_header(header_val):
         database = current_app.config['OPENERP_DATABASE']
         server = current_app.config['OPENERP_SERVER']
         try:
+            print("p1")
             client = pool.connect(server=server, db=database, user=user,
                                   password=password)
+            print("p2")
             g.backend_cnx = client
+            print("p3")
             session['openerp_login'] = user
+            print("p4")
             session['openerp_password'] = password
+            print("p5")
             return APIUser(user, password)
-        except erppeek.Error:
+        except erppeek.Error as e:
+            print("e.message:{}".format(e.message))
             pass
     except ValueError:
         pass
