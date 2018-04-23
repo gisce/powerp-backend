@@ -32,7 +32,7 @@ class Pool(object):
         key_args = [x for x in [server, db, user, password] if x]
         u_key_args = []
         for element in key_args:
-            if isinstance(element, six.text_type):
+            if isinstance(element, text_type):
                 u_key_args.append(key_args.encode('utf-8'))
         key = sha1('-'.join(key_args).encode('utf-8')).hexdigest()
         if key in self._clients:
