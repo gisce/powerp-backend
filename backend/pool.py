@@ -30,7 +30,7 @@ class Pool(object):
     def connect(self, server, db=None, user=None, password=None):
         print("c1")
         key_args = [x for x in [server, db, user, password] if x]
-        print("c2")
+        print("c2 key_args:{}".format(key_args))
         key = sha1('-'.join(key_args).encode('utf-8')).hexdigest()
         print("c3")
         if key in self._clients:
