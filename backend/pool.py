@@ -2,6 +2,7 @@ from hashlib import sha1
 from time import time
 
 from erppeek import Client
+from six import text_type
 
 
 class Pool(object):
@@ -29,6 +30,10 @@ class Pool(object):
 
     def connect(self, server, db=None, user=None, password=None):
         key_args = [x for x in [server, db, user, password] if x]
+        u_key_args = []
+        for element in key_args:
+            if instance(element, six.text_type):
+                u_key_args.append(key_args.encode('utf-8'))
         key = sha1('-'.join(key_args).encode('utf-8')).hexdigest()
         if key in self._clients:
             client, _ = self._clients[key]
