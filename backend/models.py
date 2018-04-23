@@ -176,8 +176,8 @@ class ModelBunch(BaseResource):
             type=int, help='Offset of results'
         )
         parser.add_argument(
-            'order', dest='order', default=0,
-            type=str, help='Results sort criteria in sql syntax'
+            'order', dest='order', default='',
+            type=str, help='Results sorting criteria in sql syntax'
         )
         args = parser.parse_args()
         limit = args.limit

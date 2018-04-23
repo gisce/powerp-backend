@@ -20,6 +20,7 @@ Optional arguments:
 * **schema**: List of fields you want in the JSON, you can use dots to deep browsing. (Default all fields of model)
 * **limit**: Number of maxim number of items. (Default 80)
 * **offset**: From which number to start. (Default 0)
+* **order**: Sort criteria string in SQL sintax, i.e 'id asc, name desc'. (Default empty sort criteria: '')
 
 The result is a json with the following keys:
 
