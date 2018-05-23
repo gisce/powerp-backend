@@ -175,9 +175,14 @@ class ModelBunch(BaseResource):
             'offset', dest='offset', default=0,
             type=int, help='Offset of results'
         )
+        parser.add_argument(
+            'order', dest='order', default='',
+            type=str, help='Results sorting criteria in sql syntax'
+        )
         args = parser.parse_args()
         limit = args.limit
         offset = args.offset
+        order = args.order
         if args.filter:
             try:
                 search_params = literal_eval(args.filter)
@@ -192,6 +197,7 @@ class ModelBunch(BaseResource):
             search_params = []
         try:
             count = model.search_count(search_params)
+            res_ids = model.search(search_params, limit=limit, offset=offset, order=order)
         except Fault:
             response = jsonify({'status': 'ERROR'})
             response.status_code = 422
