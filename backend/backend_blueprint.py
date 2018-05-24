@@ -43,7 +43,7 @@ def load_user_from_header(header_val):
         header_val = header_val.replace('Basic ', '', 1)
         auth = header_val.split()
         if len(auth) == 1:
-            header_val = base64.b64decode(header_val)
+            header_val = base64.b64decode(header_val).decode('utf-8')
             user, password = header_val.split(':')
         else:
             user, password = header_val.split()
