@@ -1,5 +1,5 @@
 Flask-restful
-Flask
+Flask<1.0
 Erppeek
 osconf
 flask-login<0.3
