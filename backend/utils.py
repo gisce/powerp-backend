@@ -1,4 +1,5 @@
 import collections
+from numbers import Integral
 from hashlib import sha1
 
 from werkzeug.contrib.cache import SimpleCache
@@ -55,7 +56,9 @@ def recursive_crud(model, values):
         if 'relation' in schema[k]:
             relation = model.client.model(schema[k]['relation'])
             if field_type == 'many2one':
-                if v.keys() == ['id']:
+                if isinstance(v, Integral):
+                    vals[k] = v
+                elif v.keys() == ['id']:
                     vals[k] = v['id']
                 else:
                     vals[k] = recursive_crud(relation, v)
@@ -169,6 +172,8 @@ def unflatdot(fields):
 
 def flatdot(schema):
     fields = []
+    if schema is True:
+        return ['id']
     for k, v in schema.items():
         if isinstance(v, dict):
             for f in flatdot(schema[k]):
@@ -185,7 +190,9 @@ def flatdot(schema):
     return fields
 
 
-def make_schema(model, fields):
+def make_schema(model, fields, data=None):
+    if data is None:
+        data = {}
     fields = unflatdot(fields)
     fields_def = model.fields_get()
     defaults_fields = model.default_get(list(fields_def.keys()))
@@ -218,8 +225,11 @@ def make_schema(model, fields):
                 rel_fields = flatdot(fields[field])
                 rel_schema = make_schema(relation, rel_fields)
             if attrs['type'] == 'many2one':
-                type_ = 'dict'
-                schema[field]['schema'] = rel_schema
+                if isinstance(data.get(field), dict):
+                    type_ = 'dict'
+                    schema[field]['schema'] = rel_schema
+                else:
+                    type_ = 'integer'
             elif attrs['type'] in ('many2many', 'one2many'):
                 type_ = 'list'
                 schema[field]['schema'] = {
