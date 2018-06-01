@@ -110,25 +110,25 @@ def normalize(model, values, dump_schema=None):
             if k in dump_schema and isinstance(dump_schema[k], dict):
                 fields_to_read = dump_schema[k]
             if field_type == 'many2one':
-                    if fields_to_read:
-                        data = cache.get_data(
+                if fields_to_read:
+                    data = cache.get_data(
+                        relation._name,
+                        _values[k][0],
+                        fields_to_read
+                    )
+                    if data is None:
+                        data = relation.read(_values[k][0], fields_to_read)
+                        cache.set_data(
                             relation._name,
                             _values[k][0],
-                            fields_to_read
+                            fields_to_read,
+                            data
                         )
-                        if data is None:
-                            data = relation.read(_values[k][0], fields_to_read)
-                            cache.set_data(
-                                relation._name,
-                                _values[k][0],
-                                fields_to_read,
-                                data
-                            )
-                        _values[k] = normalize(
-                            relation, data, dump_schema.get(k)
-                        )
-                    else:
-                        _values[k] = {'id': values[k][0]}
+                    _values[k] = normalize(
+                        relation, data, dump_schema.get(k)
+                    )
+                else:
+                    _values[k] = {'id': values[k][0]}
             else:
                 rel_ids = _values[k]
                 _values[k] = []
