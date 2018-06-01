@@ -5,7 +5,7 @@ reqs = data.split()
 
 setup(
     name='backend',
-    version='0.9.0',
+    version='0.9.1',
     packages=find_packages(),
     url='https://github.com/gisce/powerp-backend',
     license='MIT',
