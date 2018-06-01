@@ -241,13 +241,17 @@ def make_schema(model, fields):
 
 
 class WSTransaction(object):
+
+    def __init__(self):
+        self.errors = []
+
     def __enter__(self):
         self.client = g.backend_cnx
         self.transaction = self.client.begin()
         g.backend_cnx = self.transaction
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type:
+        if exc_type or self.errors:
             self.transaction.rollback()
         else:
             self.transaction.commit()
