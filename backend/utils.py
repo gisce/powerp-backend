@@ -204,8 +204,11 @@ def make_schema(model, fields):
             'readonly': bool(attrs.get('readonly', False))
         }
         states = attrs.get('states', {})
-        if states and 'state' in data:
-            schema[field].update(dict(states[data['state']]))
+        if states:
+            if 'state' in data:
+                schema[field].update(dict(states[data['state']]))
+            elif 'state' in defaults_fields:
+                schema[field].update(dict(states[defaults_fields['state']]))
 
         type_ = attrs['type']
         if type_ in ('text', 'char', 'selection', 'binary'):
