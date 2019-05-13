@@ -12,9 +12,5 @@ setup(
     author='GISCE-TI, S.L.',
     author_email='devel@gisce.net',
     description='Backend service to connect to OpeERP',
-    entry_points='''
-        [console_scripts]
-        backend=backend.app
-    ''',
     install_requires=reqs
 )
