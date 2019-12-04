@@ -208,7 +208,7 @@ class ModelBunch(BaseResource):
             schema = list(model.fields_get().keys())
         schema = unflatdot(schema)
         fields = list(schema.keys())
-        items = model.read(search_params, fields=fields, limit=limit, offset=offset)
+        items = model.read(res_ids, fields=fields, limit=limit, offset=offset)
         normalized_items = []
         for values in items:
             normalized_items.append(normalize(model, values, schema))
