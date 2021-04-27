@@ -91,7 +91,7 @@ def recursive_crud(model, values):
     return item_id
 
 
-def normalize(model, values, dump_schema=None):
+def normalize(model, values, dump_schema=None, context=None):
     if dump_schema is None:
         dump_schema = {}
     schema = cache.get_fields(model._name)
@@ -120,7 +120,7 @@ def normalize(model, values, dump_schema=None):
                         fields_to_read
                     )
                     if data is None:
-                        data = relation.read(_values[k][0], fields_to_read)
+                        data = relation.read(_values[k][0], fields_to_read, context=context)
                         cache.set_data(
                             relation._name,
                             _values[k][0],
@@ -128,7 +128,7 @@ def normalize(model, values, dump_schema=None):
                             data
                         )
                     _values[k] = normalize(
-                        relation, data, dump_schema.get(k)
+                        relation, data, dump_schema.get(k), context=context
                     )
                 else:
                     _values[k] = {'id': values[k][0]}
@@ -136,9 +136,9 @@ def normalize(model, values, dump_schema=None):
                 rel_ids = _values[k]
                 _values[k] = []
                 if fields_to_read:
-                    for data in relation.read(rel_ids, fields_to_read):
+                    for data in relation.read(rel_ids, fields_to_read, context=context):
                         _values[k].append(normalize(
-                            relation, data, dump_schema.get(k)
+                            relation, data, dump_schema.get(k), context=context
                         ))
                 else:
                     for rel_id in rel_ids:
