@@ -3,6 +3,7 @@ from numbers import Integral
 from hashlib import sha1
 
 from werkzeug.contrib.cache import SimpleCache
+from flask import g
 
 
 class DataCache(SimpleCache):
@@ -254,3 +255,23 @@ def make_schema(model, fields, data=None):
             schema[field].pop('allowd', None)
         schema[field]['type'] = type_
     return schema
+
+
+class WSTransaction(object):
+
+    def __init__(self):
+        self.errors = []
+
+    def __enter__(self):
+        self.client = g.backend_cnx
+        self.transaction = self.client.begin()
+        g.backend_cnx = self.transaction
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type or self.errors:
+            self.transaction.rollback()
+        else:
+            self.transaction.commit()
+        self.transaction.close()
+        g.backend_cnx = self.client

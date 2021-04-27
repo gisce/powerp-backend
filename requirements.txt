@@ -1,6 +1,7 @@
 Flask-restful
 Flask
 Erppeek
+ERPPeek-WST>=0.2.0
 osconf
 flask-login<0.3
 flask-cors

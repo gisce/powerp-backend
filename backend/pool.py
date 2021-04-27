@@ -1,7 +1,7 @@
 from hashlib import sha1
 from time import time
 
-from erppeek import Client
+from erppeek_wst import ClientWST as Client
 from six import text_type
 
 
