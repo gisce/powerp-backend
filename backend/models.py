@@ -211,8 +211,9 @@ class ModelBunch(BaseResource):
             schema = unflatdot(schema)
             fields = list(schema.keys())
             items = model.read(res_ids, fields=fields, limit=limit, offset=offset)
-            for values in items:
-                normalized_items.append(normalize(model, values, schema))
+            if items:
+                for values in items:
+                    normalized_items.append(normalize(model, values, schema))
         return jsonify({
             'items': normalized_items,
             'n_items': count,
