@@ -202,19 +202,20 @@ class ModelBunch(BaseResource):
             response = jsonify({'status': 'ERROR'})
             response.status_code = 422
             return response
-        if args.schema:
-            schema = [x.strip() for x in args.schema.split(',')]
-        else:
-            schema = list(model.fields_get().keys())
-        schema = unflatdot(schema)
-        fields = list(schema.keys())
-        items = model.read(res_ids, fields=fields, limit=limit, offset=offset)
         normalized_items = []
-        if items:
-            for values in items:
-                normalized_items.append(normalize(model, values, schema))
-        else:
-            normalized_items = []
+        if res_ids:
+            if args.schema:
+                schema = [x.strip() for x in args.schema.split(',')]
+            else:
+                schema = list(model.fields_get().keys())
+            schema = unflatdot(schema)
+            fields = list(schema.keys())
+            items = model.read(res_ids, fields=fields, limit=limit, offset=offset)
+            if items:
+                for values in items:
+                    normalized_items.append(normalize(model, values, schema))
+            else:
+                normalized_items = []
         return jsonify({
             'items': normalized_items,
             'n_items': count,
