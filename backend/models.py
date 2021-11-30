@@ -22,6 +22,14 @@ def get_model(model):
     return model
 
 
+def close_conn():
+    client = g.backend_cnx
+    print("CLOSING CONN????????????????????????")
+    if client is not None:
+        print("CONN CLOSSEEEEEEEEEEDDDDDDDDDDD<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        client.close()
+
+
 class BaseResource(restful.Resource):
     method_decorators = [login.login_required, cors.cross_origin()]
 
@@ -67,6 +75,7 @@ class Model(BaseResource):
             schema = model.fields_get().keys()
         schema = unflatdot(schema)
         result = normalize(model, model.read(obj_id, schema.keys()), schema)
+        close_conn()
         return jsonify(result)
 
     def patch(self, model, obj_id):
@@ -96,6 +105,7 @@ class Model(BaseResource):
         else:
             recursive_crud(model, data)
             resp = jsonify({'status': 'OK'})
+        close_conn()
         return resp
 
     def delete(self, model, obj_id):
@@ -114,9 +124,11 @@ class Model(BaseResource):
         if not found:
             response = jsonify({'status': 'ERROR'})
             response.status_code = 404
+            close_conn()
             return response
         else:
             model.unlink(found)
+            close_conn()
             return jsonify({'status': 'OK'})
 
 
@@ -146,6 +158,7 @@ class ModelBunch(BaseResource):
         else:
             res_id = recursive_crud(model, data)
             resp = jsonify({'status': 'OK', 'id': res_id})
+        close_conn()
         return resp
 
     def get(self, model):
@@ -192,6 +205,7 @@ class ModelBunch(BaseResource):
                     'errors': {'filter': e.message}
                 })
                 response.status_code = 422
+                close_conn()
                 return response
         else:
             search_params = []
@@ -201,6 +215,7 @@ class ModelBunch(BaseResource):
         except Fault:
             response = jsonify({'status': 'ERROR'})
             response.status_code = 422
+            close_conn()
             return response
         normalized_items = []
         if res_ids:
@@ -214,6 +229,7 @@ class ModelBunch(BaseResource):
             if items:
                 for values in items:
                     normalized_items.append(normalize(model, values, schema))
+        close_conn()
         return jsonify({
             'items': normalized_items,
             'n_items': count,
@@ -240,6 +256,7 @@ class ModelMethod(BaseResource):
             res = method(*data['args'])
         else:
             res = method()
+        close_conn()
         return jsonify({'res': res})
 
 
@@ -264,5 +281,6 @@ class ModelIdMethod(BaseResource):
             res = method(*data['args'])
         else:
             res = method()
+        close_conn()
         return jsonify({'res': res})
 

@@ -37,6 +37,8 @@ class APIUser(login.UserMixin):
         return self.login
 
 
+print '------------> backend loads'
+
 @login_manager.header_loader
 def load_user_from_header(header_val):
     try:
@@ -60,14 +62,18 @@ def load_user_from_header(header_val):
         database = current_app.config['OPENERP_DATABASE']
         server = current_app.config['OPENERP_SERVER']
         try:
+            print '------------> backend new client'
             client = pool.connect(server=server, db=database, user=user,
                                   password=password)
             g.backend_cnx = client
+
             session['openerp_login'] = user
             session['openerp_password'] = password
+            client.close()
             return APIUser(user, password)
-        except erppeek.Error:
-            pass
+        except erppeek.Error as e:
+            print '------------> erppeek Error' + str(e)
+
     except ValueError:
         pass
 
