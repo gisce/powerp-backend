@@ -3,7 +3,7 @@ Flask
 Erppeek
 ERPPeek-WST>=0.2.0
 osconf
-flask-login<0.3
+flask-login==0.5.0
 flask-cors
 raven<5.0
 blinker
